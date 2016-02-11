@@ -2,6 +2,6 @@ include("SapphireORM.jl")
 
 using SapphireORM
 
-test = SapphireORM.connection(username="root", password="tututa", dbname="test");
+sapphire = Sapphire(username="root", password="tututa", dbname="test");
 
-print(SapphireORM.get(table="toto", values=[]))
+SapphireORM.get(sapphire, table="toto", values=[])

@@ -2,18 +2,26 @@ module SapphireORM
 
   using ODBC
 
-  function connection(;username=nothing,
-                   password=nothing,
-                   dbname=nothing,
-                   option = 3,
-                   host = "localhost",
-                   driver = "MySQL ODBC 5.3 Unicode Driver")
+  export Sapphire
 
-    conn = advancedconnect("Driver={$driver};Server=$host;Database=$dbname;User=$username;Password=$password;Option=$option;")
+  type Sapphire
+    conn::ODBC.Connection
+    function Sapphire(;username=nothing,
+                          password=nothing,
+                          dbname=nothing,
+                          option = 3,
+                          host = "localhost",
+                          driver = "MySQL ODBC 5.3 Unicode Driver")
+
+      conn = advancedconnect("Driver={$driver};Server=$host;Database=$dbname;User=$username;Password=$password;Option=$option;")
+      new(conn)
+    end
   end
 
-  function get(;table=nothing,
-                values = [])
+  function get(sapphire::Sapphire;
+               table=nothing,
+              values = [])
+
     if length(values) > 0
       values = join(values, ",")
     else
@@ -23,8 +31,8 @@ module SapphireORM
     return conn.resultset
   end
 
-  function update() end
+  function update(::Sapphire) end
 
-  function insert() end
+  function insert(::Sapphire) end
 
 end
