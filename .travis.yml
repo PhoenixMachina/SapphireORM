@@ -4,3 +4,5 @@ julia:
     - nightly
 notifications:
   slack: phoenixmachina:tUJkltUznVKfynIB7gxtKHbH
+after_success:
+- julia -e 'cd(Pkg.dir("SapphireORM")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
