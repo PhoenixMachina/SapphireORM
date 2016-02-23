@@ -32,7 +32,14 @@ module SapphireORM
       values = "*"
     end
 
-    query("SELECT $values FROM $table", conn)
+    # Where
+    if haskey(params, "where")
+      where = "WHERE " * params["where"]
+    else
+      where = ""
+    end
+
+    query("SELECT $values FROM $table $where", conn)
     return conn.resultset
 
   end
