@@ -1,0 +1,6 @@
+language: julia
+julia:
+    - 0.4.2
+    - nightly
+notifications:
+  slack: phoenixmachina:tUJkltUznVKfynIB7gxtKHbH
