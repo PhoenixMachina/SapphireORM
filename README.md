@@ -3,6 +3,13 @@
 
 A Julia ORM.
 
+How to add it to your project :
+
+```
+Pkg.clone("https://github.com/PhoenixMachina/SapphireORM.git")
+```
+
+
 # Using it
 Here's how to call the constructor :
 ```
