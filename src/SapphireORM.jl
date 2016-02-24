@@ -32,7 +32,14 @@ module SapphireORM
       values = "*"
     end
 
-    query("SELECT $values FROM $table", conn)
+    # Where
+    if haskey(params, "where")
+      where = "WHERE " * params["where"]
+    else
+      where = ""
+    end
+
+    query("SELECT $values FROM $table $where", conn)
     return conn.resultset
 
   end
@@ -49,13 +56,20 @@ module SapphireORM
     end
 
     # Values
-    if haskey(params, "values") && length(params["values"]) > 0
-      values = join(params["values"], ",")
-    else
-      values = "*"
-    end
 
-    query("INSERT INTO $table VALUES($values)", conn)
+    # TODO: Support multiple values keys
+    if haskey(params, "values") && length(params["values"]) > 0
+      names = ""
+      if isa(params["values"], Array)
+        vals = join(params["values"], ",")
+      else
+        names = "(" * join(keys(params["values"]), ",") * ")"
+        vals = join(values(params["values"]), ",")
+      end
+    else
+      vals = "*"
+    end
+    query("INSERT INTO $table $names VALUES($vals)", conn)
     return conn.resultset
   end
 
