@@ -76,4 +76,26 @@ module SapphireORM
   # UPDATE
   function update(::Connection) end
 
+  # DELETE
+  function delete(conn::Connection, params::Dict=Dict())
+
+    # Table
+    if haskey(params, "table")
+      table = params["table"]
+    else
+      error("No table specify")
+    end
+
+    # Where
+    if haskey(params, "where")
+      where = "WHERE " * params["where"]
+    else
+      where = ""
+    end
+
+    query("DELETE FROM $table $where", conn)
+    return conn.resultset
+
+  end
+
 end
