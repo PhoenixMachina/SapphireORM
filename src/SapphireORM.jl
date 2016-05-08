@@ -74,7 +74,35 @@ module SapphireORM
   end
 
   # UPDATE
-  function update(::Connection) end
+  function update(conn::Connection, params::Dict=Dict())
+
+    # Table
+    if haskey(params, "table")
+      table = params["table"]
+    else
+      error("No table specify")
+    end
+
+    # Set
+    if haskey(params, "set") && isa(params["set"], Dict)
+      set = "SET "
+      for k in keys(params["set"])
+        set *= k * " = '"params["set"][k] * "' "
+      end
+    else
+      set = ""
+    end
+
+    # Where
+    if haskey(params, "where")
+      where = "WHERE " * params["where"]
+    else
+      where = ""
+    end
+
+    query("UPDATE $table $set $where", conn)
+    return conn.resultset
+  end
 
   # DELETE
   function delete(conn::Connection, params::Dict=Dict())
