@@ -1,5 +1,7 @@
 # SapphireORM
+
 [![Build Status](https://travis-ci.org/PhoenixMachina/SapphireORM.svg?branch=master)](https://travis-ci.org/PhoenixMachina/SapphireORM)
+[![Licence MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 A Julia ORM.
 
