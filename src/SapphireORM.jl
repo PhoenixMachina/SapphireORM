@@ -1,22 +1,19 @@
 module SapphireORM
 
+  using DataFrames
   using ODBC
   export Sapphire
 
   # Sapphire
-  function Sapphire(;username = nothing,
-                          password = nothing,
-                          dbname = nothing,
-                          option = 3,
-                          host = "localhost",
-                          driver = "MySQL ODBC 5.3 Unicode Driver")
+  function Sapphire(;dsn       =  nothing,
+                     username  =  nothing,
+                     password  =  nothing)
 
-    return advancedconnect("Driver={$driver};Server=$host;Database=$dbname;User=$username;Password=$password;Option=$option;")
-
+    return ODBC.DSN(dsn, username, password)
   end
 
   # GET
-  function get(conn::Connection, params::Dict=Dict())
+  function get(dsn::ODBC.DSN, params::Dict=Dict())
 
     # Table
     if haskey(params, "table")
@@ -39,14 +36,13 @@ module SapphireORM
       where = ""
     end
 
-    query("SELECT $values FROM $table $where", conn)
-    return conn.resultset
+    return DataFrame(ODBC.query(dsn, "SELECT $values FROM $table $where"))
 
   end
 
 
   # INSERT
-  function insert(conn::Connection, params::Dict=Dict())
+  function insert(dsn::ODBC.DSN, params::Dict=Dict())
 
     # Table
     if haskey(params, "table")
@@ -69,12 +65,11 @@ module SapphireORM
     else
       vals = "*"
     end
-    query("INSERT INTO $table $names VALUES($vals)", conn)
-    return conn.resultset
+    return DataFrame(ODBC.query(dsn, "INSERT INTO $table $names VALUES($vals)"))
   end
 
   # UPDATE
-  function update(conn::Connection, params::Dict=Dict())
+  function update(dsn::ODBC.DSN, params::Dict=Dict())
 
     # Table
     if haskey(params, "table")
@@ -100,12 +95,12 @@ module SapphireORM
       where = ""
     end
 
-    query("UPDATE $table $set $where", conn)
-    return conn.resultset
+    DataFrame(ODBC.query(dsn, "UPDATE $table $set $where"))
+    return dsn.resultset
   end
 
   # DELETE
-  function delete(conn::Connection, params::Dict=Dict())
+  function delete(dsn::ODBC.DSN, params::Dict=Dict())
 
     # Table
     if haskey(params, "table")
@@ -121,8 +116,8 @@ module SapphireORM
       where = ""
     end
 
-    query("DELETE FROM $table $where", conn)
-    return conn.resultset
+    DataFrame(ODBC.query(dsn, "DELETE FROM $table $where"))
+    return dsn.resultset
 
   end
 
