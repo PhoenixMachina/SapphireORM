@@ -35,7 +35,6 @@ module SapphireORM
     else
       where = ""
     end
-
     return DataFrame(ODBC.query(dsn, "SELECT $values FROM $table $where"))
 
   end
@@ -94,9 +93,7 @@ module SapphireORM
     else
       where = ""
     end
-
-    DataFrame(ODBC.query(dsn, "UPDATE $table $set $where"))
-    return dsn.resultset
+    return DataFrame(ODBC.query(dsn, "UPDATE $table $set $where"))
   end
 
   # DELETE
@@ -116,8 +113,8 @@ module SapphireORM
       where = ""
     end
 
-    DataFrame(ODBC.query(dsn, "DELETE FROM $table $where"))
-    return dsn.resultset
+
+    return DataFrame(ODBC.query(dsn, "DELETE FROM $table $where"))
 
   end
 
