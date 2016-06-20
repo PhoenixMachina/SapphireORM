@@ -7,7 +7,7 @@ notifications:
 services:
     - mysql
 before_script:
-  - mysql -u root -e 'create database your_db_name;'
+  - mysql -u root -e 'create database dataTest;'
 after_success:
 - julia -e 'cd(Pkg.dir("SapphireORM")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
 dist: trusty

@@ -35,6 +35,7 @@ module SapphireORM
     else
       where = ""
     end
+    print("SELECT $values FROM $table $where")
     return DataFrame(ODBC.query(dsn, "SELECT $values FROM $table $where"))
   end
 
